@@ -13,7 +13,7 @@
                   return this._speed || 0;
               },
               set: function(speed) {
-                  if (speed < 0) {
+                  if (speed < 0 || (typeof speed !="number") ) {
                       throw {
                           name: 'SpeedCheckError',
                           message: 'Vitesse négative. Vous roulez a contre sens?'
@@ -28,7 +28,7 @@
                   return this._licencePlate || '???';
               },
               set: function(licencePlate) {
-                  if (!this.validatePlate(licencePlate)) {
+                  if (!this.validatePlate(licencePlate) || (typeof licencePlate !="string") ) {
                       throw {
                           name: 'SpeedCheckError',
                           message: 'Plaque non reconnue. Vous avez de la chance.'
@@ -38,7 +38,13 @@
               }
           },
           toString: {
-              /* TODO: Implement this function */
+            get: function() {
+            if (this.infraction){
+            return "Véhicule " + this._licencePlate + " roule à " + this._speed + "km/h. Infraction !";
+            }
+            else{
+            return "Véhicule " + this._licencePlate + " roule à " + this._speed + "km/h. ça va, circulez... ";}
+            }
           },
           infraction: {
               get: function() {
@@ -57,6 +63,7 @@
           }
       });
   }
+
   function createSpeedCheckFR() {
     return Object.create(createSpeedCheck(), {
       validatePlate: {
